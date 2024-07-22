@@ -16,8 +16,6 @@ type userLogin struct {
 	Password string `json:"password"`
 }
 
-
-
 func (h handler) Login(w http.ResponseWriter, r *http.Request) {
 	var user userLogin
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
@@ -37,9 +35,9 @@ func (h handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"id": userFromDB.ID,
+		"id":   userFromDB.ID,
 		"type": userFromDB.UserType,
-		"exp": time.Now().Add(10 * time.Minute),
+		"exp":  time.Now().Add(24*time.Hour).Unix(),
 	})
 
 	tokenString, err := token.SignedString(SECRET)
@@ -55,5 +53,5 @@ func (h handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	http.SetCookie(w, cookie)
 	w.WriteHeader(200)
-	w.Write([]byte("user loged in"))
+	w.Write([]byte("user loged in : " + tokenString))
 }

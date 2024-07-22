@@ -7,20 +7,19 @@ import (
 	"github.com/shauryagupta3/recruitment-management-sys/models"
 )
 
-func (h handler) AdminGetJobFromID(w http.ResponseWriter, r *http.Request) error {
+func (h handler) AdminGetApplicants(w http.ResponseWriter, r *http.Request) error{
 	_, err := AdminProtectedHandler(w, r)
 	if err != nil {
 		return err
 	}
-	id := r.PathValue("id")
-	var jobs models.Job
+	var users []models.User
 
-	if result := h.DB.Preload("User").Preload("Applicants").First(&jobs, id); result.Error != nil {
-		return err
+	if result := h.DB.Where("type = ?", "applicant").Find(&users); result.Error != nil {
+		return result.Error
 	}
 
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(jobs)
+	json.NewEncoder(w).Encode(users)
 	return nil
 }

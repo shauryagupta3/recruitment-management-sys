@@ -29,10 +29,15 @@ func main() {
 	router.HandleFunc("POST /signup", h.Signup)
 	router.HandleFunc("POST /login", h.Login)
 
-	router.HandleFunc("POST /uploadresume", h.Login)
-	
+	router.HandleFunc("POST /uploadresume", handlers.Make(h.UploadResume))
+
 	router.HandleFunc("POST /admin/job", handlers.Make(h.PostJob))
 	router.HandleFunc("GET /admin/job/{id}", handlers.Make(h.AdminGetJobFromID))
+	router.HandleFunc("GET /admin/applicants", handlers.Make(h.AdminGetApplicants))
+	router.HandleFunc("GET /admin/applicant/{id}", handlers.Make(h.AdminGetApplicants))
+
+	router.HandleFunc("GET /jobs", handlers.Make(h.GetAllJobs))
+	router.HandleFunc("GET /jobs/apply?job_id={job_id}", handlers.Make(h.AdminGetApplicants))
 
 	server := http.Server{
 		Addr:    ":3000",

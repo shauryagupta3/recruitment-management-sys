@@ -14,5 +14,6 @@ type Job struct {
 	TotalApplications int       `json:"total_applications"`
 	CompanyName       string    `json:"company_name"`
 	PostedByID        uint      `json:"posted_by_id"`
-	PostedBy          User      `json:"posted_by" gorm:"foreignKey:PostedByID"`
+	User              User      `json:"user" gorm:"foreignKey:PostedByID"`
+	Applicants        []User    `gorm:"many2many:job_applicants;"`
 }
