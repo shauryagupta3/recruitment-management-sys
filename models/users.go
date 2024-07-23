@@ -11,4 +11,7 @@ type User struct {
 	PasswordHash    string `json:"password_hash"`
 	ProfileHeadline string `json:"profile_headline"`
 	Job             []Job  `gorm:"foreignKey:PostedByID"`
+
+	Applicant         *Profile `json:"profile" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+
 }

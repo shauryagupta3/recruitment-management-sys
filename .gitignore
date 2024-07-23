@@ -7,11 +7,11 @@
 *.dll
 *.so
 *.dylib
-.uploads
 # Test binary, built with `go test -c`
 *.test
 ./uploads
 # Output of the go coverage tool, specifically when used with LiteIDE
+.env
 *.out
 
 # Dependency directories (remove the comment below to include it)

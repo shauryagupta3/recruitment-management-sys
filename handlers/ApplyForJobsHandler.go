@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -8,11 +9,11 @@ import (
 )
 
 func (h handler) ApplyForJob(w http.ResponseWriter, r *http.Request) error {
+	fmt.Println("here")
 	claims, err := ApplicantProtectedHandler(w, r)
 	if err != nil {
 		return err
 	}
-
 	query := r.URL.Query()
 	jobIDStr := query.Get("job_id")
 

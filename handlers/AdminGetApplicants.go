@@ -12,14 +12,14 @@ func (h handler) AdminGetApplicants(w http.ResponseWriter, r *http.Request) erro
 	if err != nil {
 		return err
 	}
-	var users []models.User
+	var Profiles []models.Profile
 
-	if result := h.DB.Where("type = ?", "applicant").Find(&users); result.Error != nil {
+	if result := h.DB.Preload("User").Find(&Profiles); result.Error != nil {
 		return result.Error
 	}
 
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(users)
+	json.NewEncoder(w).Encode(Profiles)
 	return nil
 }
